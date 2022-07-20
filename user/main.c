@@ -1,26 +1,76 @@
 #include "main.h"
+#include "diskio.h"
+#include "ff.h"
+
+
+FATFS fs; /* 文件系统对象 */
+FIL fnew; /* 文件对象 */
+FRESULT res_flash; /* 文件操作结果 */
+UINT fnum; /* 文件成功读取数量 */
+BYTE buffer[1024];
+BYTE textfilebuffer[] = "Welcome here and wish you luck forever! This is the test program\r\n";
+BYTE work[FF_MAX_SS];
 
 int main(void){
 
-    uint32_t flash_id = 0;
-    uint8_t Tx_Buffer[] = "hejiahui";
-    uint8_t Rx_Buffer[50];
     system_clock_config();
     bsp_uart_init();
-    bsp_spi_init();
 
-    printf("hello world\n");
-    flash_id = w25qxx_readID();
-    printf("flash_id = 0x%x\n",flash_id);
+    printf("hardware init complete\n");
 
+    res_flash = f_mount(&fs,"0:",1); /* 挂载文件系统 */
+    if(res_flash == FR_NO_FILESYSTEM){
 
-    w25qxx_sectorerase(0x00);
-    w25qxx_buffwrite(Tx_Buffer,0x00,8);
-    w25qxx_readbuff(Rx_Buffer,0x00,8);
-    printf("buffread = %s\n",Rx_Buffer);
-    while(1){
-		
-		
+        res_flash = ("0:",0,work,sizeof(work));
+
+        if(res_flash == FR_OK){
+            f_mount(NULL,"0:",1);/* 取消挂载 */
+            res_flash = f_mount(&fs,"0:",1);/* 重新挂载 */
+            printf("res_flash = %d\n",res_flash);
+        }
+        else{
+            printf("Format failed\n");
+        }
+    }
+    else if(res_flash != FR_OK){
+        printf("filesystem mount failed\n");
+    }
+    else{
+        printf("file system mounted successfully\n");
+    }
+
+    // res_flash = f_open(&fnew,"0:file.txt",FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+
+    // if(res_flash == FR_OK){
+    //     res_flash = f_write(&fnew,textfilebuffer,sizeof(textfilebuffer),&fnum);
+
+    //     if(res_flash == FR_OK) printf("write file successfully\n");
+    //     else printf("write file failed\n");
+
+    //     f_close(&fnew);
+    // }
+    // else{
+    //     printf("Open file failed\n");
+    // }
+
+    // res_flash = f_open(&fnew,"0:testfile.txt",FA_OPEN_EXISTING|FA_READ);
+    
+
+    // if(res_flash == FR_OK){
+    //     res_flash = f_read(&fnew,buffer,sizeof(buffer),&fnum);
+
+    //     if(res_flash == FR_OK){
+    //         printf("read file successfully\n");
+    //         printf("读取文件数据为：\r\n%s",buffer);
+    //     } 
+    //     else printf("read file failed\n");
+    // }
+    // else printf("Open file failed\n");
+
+    // f_close(&fnew);
+    // f_mount(NULL,"0:",1);
+
+    while(1){	
 		
     }
 }

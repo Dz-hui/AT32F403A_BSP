@@ -43,6 +43,7 @@
 uint32_t w25qxx_readID(void);
 void w25qxx_write_enable(void);
 void w25qxx_wait_busy(void);
+void w25qxx_wake_up(void);
 void w25qxx_sectorerase(uint32_t addr);
 void w25qxx_pagewrite(uint8_t *pbuff,uint32_t addr,uint16_t numofpage);
 void w25qxx_buffwrite(uint8_t *pbuff,uint32_t writeaddr,uint16_t numtowrite);

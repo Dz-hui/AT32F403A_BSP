@@ -35,6 +35,14 @@ void w25qxx_wait_busy(void){
 
 }
 
+void w25qxx_wake_up(void){
+
+    SPI_CS_LOW();
+    bsp_spi_senddata(W25X_ReleasePowerDown);
+    SPI_CS_HIGH();
+
+}
+
 void w25qxx_sectorerase(uint32_t addr){
 
     w25qxx_write_enable();

@@ -6,6 +6,9 @@
         "at32f403a_407_board.h": "c",
         "main.h": "c",
         "stdbool.h": "c",
-        "bsp_w25qxx.h": "c"
+        "bsp_w25qxx.h": "c",
+        "diskio.h": "c",
+        "ff.h": "c",
+        "bsp_spi.h": "c"
     }
 }
