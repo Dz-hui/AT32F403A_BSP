@@ -21,12 +21,11 @@ int main(void){
     res_flash = f_mount(&fs,"0:",1); /* 挂载文件系统 */
     if(res_flash == FR_NO_FILESYSTEM){
 
-        res_flash = ("0:",0,work,sizeof(work));
+        res_flash = f_mkfs("0:",0,work,sizeof(work));
 
         if(res_flash == FR_OK){
             f_mount(NULL,"0:",1);/* 取消挂载 */
             res_flash = f_mount(&fs,"0:",1);/* 重新挂载 */
-            printf("res_flash = %d\n",res_flash);
         }
         else{
             printf("Format failed\n");
@@ -39,36 +38,36 @@ int main(void){
         printf("file system mounted successfully\n");
     }
 
-    // res_flash = f_open(&fnew,"0:file.txt",FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+    res_flash = f_open(&fnew,"0:file.txt",FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
 
-    // if(res_flash == FR_OK){
-    //     res_flash = f_write(&fnew,textfilebuffer,sizeof(textfilebuffer),&fnum);
+    if(res_flash == FR_OK){
+        res_flash = f_write(&fnew,textfilebuffer,sizeof(textfilebuffer),&fnum);
 
-    //     if(res_flash == FR_OK) printf("write file successfully\n");
-    //     else printf("write file failed\n");
+        if(res_flash == FR_OK) printf("write file successfully\n");
+        else printf("write file failed\n");
 
-    //     f_close(&fnew);
-    // }
-    // else{
-    //     printf("Open file failed\n");
-    // }
+        f_close(&fnew);
+    }
+    else{
+        printf("Open file failed\n");
+    }
 
-    // res_flash = f_open(&fnew,"0:testfile.txt",FA_OPEN_EXISTING|FA_READ);
+    res_flash = f_open(&fnew,"0:file.txt",FA_OPEN_EXISTING|FA_READ);
     
 
-    // if(res_flash == FR_OK){
-    //     res_flash = f_read(&fnew,buffer,sizeof(buffer),&fnum);
+    if(res_flash == FR_OK){
+        res_flash = f_read(&fnew,buffer,sizeof(buffer),&fnum);
 
-    //     if(res_flash == FR_OK){
-    //         printf("read file successfully\n");
-    //         printf("读取文件数据为：\r\n%s",buffer);
-    //     } 
-    //     else printf("read file failed\n");
-    // }
-    // else printf("Open file failed\n");
+        if(res_flash == FR_OK){
+            printf("read file successfully\n");
+            printf("Read file data as: \n%s",buffer);
+        } 
+        else printf("read file failed\n");
+    }
+    else printf("Open file failed\n");
 
-    // f_close(&fnew);
-    // f_mount(NULL,"0:",1);
+    f_close(&fnew);
+    f_mount(NULL,"0:",1);
 
     while(1){	
 		

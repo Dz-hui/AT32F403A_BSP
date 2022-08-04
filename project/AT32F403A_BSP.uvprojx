@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F403AVGT7,USE_STDPERIPH_DRIVER,AT_START_F403A_V1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\bsp;..\cmsis\core_support;..\cmsis;..\driver;..\driver\inc;..\user</IncludePath>
+              <IncludePath>..\bsp;..\cmsis\core_support;..\cmsis;..\driver;..\driver\inc;..\user;..\lib\fatfs;..\lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -557,6 +557,31 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user\main.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lib</GroupName>
+          <Files>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\fatfs\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\fatfs\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>ffsystem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\fatfs\ffsystem.c</FilePath>
+            </File>
+            <File>
+              <FileName>ffunicode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\fatfs\ffunicode.c</FilePath>
             </File>
           </Files>
         </Group>

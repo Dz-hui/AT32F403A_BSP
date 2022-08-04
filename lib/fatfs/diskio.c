@@ -34,7 +34,7 @@ DSTATUS disk_status (
 		if(result == sFLASH_ID){
 			stat = RES_OK;
 		}
-		// translate the reslut code here
+
 		return stat;
 
 	//case DEV_MMC :
@@ -69,13 +69,10 @@ DSTATUS disk_initialize (
 	uint16_t count;
 	switch (pdrv) {
 	case DEV_SPI_FLASH :
-		count = 500;
+
 		bsp_spi_init();
-		while(count --);
-		w25qxx_wake_up();
-		//stat = disk_status(DEV_SPI_FLASH);
-		stat = RES_OK;
-		// translate the reslut code here
+		stat = disk_status(DEV_SPI_FLASH);
+
 		return stat;
 
 	//case DEV_MMC :
@@ -113,9 +110,8 @@ DRESULT disk_read (
 
 	switch (pdrv) {
 	case DEV_SPI_FLASH :
-		// translate the arguments here
-		w25qxx_readbuff(buff, sector, count);
-		// translate the reslut code here
+
+		w25qxx_readbuff(buff, sector*4096, count*4096);
 		res = RES_OK;
 
 		return res;
@@ -162,9 +158,9 @@ DRESULT disk_write (
 
 	switch (pdrv) {
 	case DEV_SPI_FLASH :
-		// translate the arguments here
-		w25qxx_buffwrite((uint8_t *)buff, sector, count);
-		// translate the reslut code here
+
+		w25qxx_sectorerase(sector*4096);
+		w25qxx_buffwrite((uint8_t *)buff, sector*4096, count*4096);
 		res = RES_OK;
 
 		return res;
